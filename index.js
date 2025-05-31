@@ -1,19 +1,19 @@
-        const vuetify = Vuetify.createVuetify()
-        const app = Vue.createApp({
-            data() {
-                return {
-                    visual: false,
-                    info: {
-                        name: "",
-                        nickname: "",
-                        gender: "",
-                    },
-                    drawer: null,
-                };
+const vuetify = Vuetify.createVuetify()
+const app = Vue.createApp({
+    data() {
+        return {
+            visual: false,
+            info: {
+                name: "",
+                nickname: "",
+                gender: "",
             },
-            methods: {
-            },
-            mounted() {
-            }
-        });
-        app.use(vuetify).mount('#app');
+            drawer: null,
+        };
+    },
+    methods: {
+    },
+    mounted() {
+    }
+});
+app.use(vuetify).mount('#app');
