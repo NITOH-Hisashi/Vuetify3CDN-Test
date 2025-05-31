@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
@@ -46,27 +46,7 @@
 
     <script src="https://unpkg.com/vue@3.4.27/dist/vue.global.js"></script>
     <script src="https://unpkg.com/vuetify@3.6.6/dist/vuetify.min.js"></script>
-    <script lang="ts">
-        const vuetify = Vuetify.createVuetify()
-        const app = Vue.createApp({
-            data() {
-                return {
-                    visual: false,
-                    info: {
-                        name: "",
-                        nickname: "",
-                        gender: "",
-                    },
-                    drawer: null,
-                };
-            },
-            methods: {
-            },
-            mounted() {
-            }
-        });
-        app.use(vuetify).mount('#app');
-    </script>
+    <script type="module" src="./index.js"></script>
 </body>
 
 </html>
