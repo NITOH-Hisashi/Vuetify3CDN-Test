@@ -1,53 +1,20 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/vuetify@3.6.6/dist/vuetify.min.css" rel="stylesheet">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
-</head>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://unpkg.com/vuetify@3.6.6/dist/vuetify.min.css" rel="stylesheet">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
+    </head>
 
-<body>
-    <div id="app">
-        <v-app>
-            <v-app-bar app>
-                <!-- ヘッドバー  -->
-                <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-                <v-toolbar-title>Application</v-toolbar-title>
-                <div class='foo' style='margin-left: auto;'>
+    <body>
+        <div id="app"></div>
 
-                </div>
-            </v-app-bar>
-
-            <v-navigation-drawer v-model="drawer" app>
-                <!-- サイドメニューバー  -->
-                <v-expansion-panels>
-                    <v-expansion-panel v-for="i in 3" :key="i" title="Item"
-                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."></v-expansion-panel>
-                </v-expansion-panels>
-            </v-navigation-drawer>
-
-            <v-main>
-                <!-- メインコンテンツ  -->
-                <div>
-                    <v-btn>
-                        push
-                    </v-btn>
-                </div>
-                <v-row no-gutters>
-                    <v-col v-for="n in 25" :key="n">
-                        <v-card width="300" height="600" outlined>Card</v-card>
-                    </v-col>
-                </v-row>
-            </v-main>
-        </v-app>
-    </div>
-
-    <script src="https://unpkg.com/vue@3.4.27/dist/vue.global.js"></script>
-    <script src="https://unpkg.com/vuetify@3.6.6/dist/vuetify.min.js"></script>
-    <script type="module" src="./index.js"></script>
-</body>
+        <script src="https://unpkg.com/vue@3.4.27/dist/vue.global.js"></script>
+        <script src="https://unpkg.com/vuetify@3.6.6/dist/vuetify.min.js"></script>
+        <script type="module" src="./index.js"></script>
+    </body>
 
 </html>
 <style>
