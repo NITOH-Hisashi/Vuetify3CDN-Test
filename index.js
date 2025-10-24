@@ -1,19 +1,28 @@
-const vuetify = Vuetify.createVuetify()
-const app = Vue.createApp({
-    data() {
+const { createApp, ref, onMounted } = Vue
+const { createVuetify } = Vuetify
+
+const vuetify = createVuetify()
+createApp({
+    setup() {
+        const visual = ref(false);
+        const info = ref({
+            name: "",
+            nickname: "",
+            gender: "",
+        });
+        const drawer = ref(null);
+
+        /**
+         * 初期表示時にナビゲーションドロワーを開く
+         */
+        onMounted(() => {
+            drawer.value = true;
+        });
+
         return {
-            visual: false,
-            info: {
-                name: "",
-                nickname: "",
-                gender: "",
-            },
-            drawer: null,
+            visual,
+            info,
+            drawer,
         };
     },
-    methods: {
-    },
-    mounted() {
-    }
-});
-app.use(vuetify).mount('#app');
+}).use(vuetify).mount('#app');
