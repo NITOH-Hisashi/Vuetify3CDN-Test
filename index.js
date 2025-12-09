@@ -1,9 +1,9 @@
-const { createApp, ref, onMounted } = Vue
+const { createApp, ref, onMounted, watch } = Vue
 const { createVuetify } = Vuetify
-//const { createRouter, createWebHistory } = VueRouter
+const { createRouter, createWebHistory, useRoute } = VueRouter
 
 const vuetify = createVuetify()
-/*
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [{
@@ -13,7 +13,7 @@ const router = createRouter({
         }
     }]
 })
-*/
+
 const headers = {
     headers: {
         "Content-Type": "text/x-vue",
@@ -25,7 +25,12 @@ const headers = {
  */
 fetch('./index.vue', headers)
     .then(r => r.text())
-    .then(vue => {
+    .then(xml => {
+        /* template部分を抽出しないといけないので、タグを削除する
+         * index.vue の中身をそのまま使うわけにはいかない
+         * index.vue は template タグで囲まれていないとVueファイルと認識されないため
+         */
+        const vue = xml.replace('<template>', '').replace('</template>', '');
         const app = createApp({
             template: vue,
             setup() {
@@ -35,13 +40,19 @@ fetch('./index.vue', headers)
                     nickname: "",
                     gender: "",
                 });
-                const drawer = ref(null);
 
-                /**
-                 * 初期表示時にナビゲーションドロワーを開く
-                 */
-                onMounted(() => {
+                // 初期表示時にナビゲーションドロワーを開く
+                // 幅1280px未満はモバイル扱いで閉じられる
+                const drawer = ref(true);
+
+                const route = useRoute();
+
+                // ルートが変わるたびにドロワーを開く
+                watch(() => route.fullPath, () => {
                     drawer.value = true;
+                });
+
+                onMounted(() => {
                 });
 
                 return {
@@ -52,7 +63,7 @@ fetch('./index.vue', headers)
             },
         })
 
-        //app.use(router)
+        app.use(router)
         app.use(vuetify)
         app.mount('#app')
     })
