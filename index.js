@@ -1,62 +1,72 @@
-const { createApp, ref, onMounted } = Vue
+const { createApp, ref, onMounted, watch } = Vue
 const { createVuetify } = Vuetify
+const { createRouter, createWebHistory, useRoute } = VueRouter
 
 const vuetify = createVuetify()
-createApp({
-    setup() {
-        const visual = ref(false);
-        const info = ref({
-            name: "",
-            nickname: "",
-            gender: "",
-        });
-        const drawer = ref(null);
 
-        /**
-         * 初期表示時にナビゲーションドロワーを開く
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [{
+        path: '/',
+        component: {
+            template: '<div>RouterTemplate</div>'
+        }
+    }]
+})
+
+const headers = {
+    headers: {
+        "Content-Type": "text/x-vue",
+    }
+};
+
+/** メインアプリケーションの作成とマウント
+ * - index.vue をフェッチしてテンプレートとして使用
+ */
+fetch('./index.vue', headers)
+    .then(r => r.text())
+    .then(xml => {
+        /* template部分を抽出しないといけないので、タグを削除する
+         * index.vue の中身をそのまま使うわけにはいかない
+         * index.vue は template タグで囲まれていないとVueファイルと認識されないため
          */
-        onMounted(() => {
-            drawer.value = true;
-        });
+        const vue = xml.replace('<template>', '').replace('</template>', '');
+        const app = createApp({
+            template: vue,
+            setup() {
+                const visual = ref(false);
+                const info = ref({
+                    name: "",
+                    nickname: "",
+                    gender: "",
+                });
 
-        return {
-            visual,
-            info,
-            drawer,
-        };
-    },
-    template: `
-            <v-app>
-            <v-app-bar app>
-                <!-- ヘッドバー  -->
-                <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-                <v-toolbar-title>Application</v-toolbar-title>
-                <div class='foo' style='margin-left: auto;'>
+                // 初期表示時にナビゲーションドロワーを開く
+                // 幅1280px未満はモバイル扱いで閉じられる
+                const drawer = ref(true);
 
-                </div>
-            </v-app-bar>
+                const route = useRoute();
 
-            <v-navigation-drawer v-model="drawer" app>
-                <!-- サイドメニューバー  -->
-                <v-expansion-panels>
-                    <v-expansion-panel v-for="i in 3" :key="i" title="Item"
-                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."></v-expansion-panel>
-                </v-expansion-panels>
-            </v-navigation-drawer>
+                // ルートが変わるたびにドロワーを開く
+                watch(() => route.fullPath, () => {
+                    drawer.value = true;
+                });
 
-            <v-main>
-                <!-- メインコンテンツ  -->
-                <div>
-                    <v-btn>
-                        push
-                    </v-btn>
-                </div>
-                <v-row no-gutters>
-                    <v-col v-for="n in 25" :key="n">
-                        <v-card width="300" height="600" outlined>Card</v-card>
-                    </v-col>
-                </v-row>
-            </v-main>
-        </v-app>
-    `,
-}).use(vuetify).mount('#app');
+                onMounted(() => {
+                });
+
+                return {
+                    visual,
+                    info,
+                    drawer,
+                };
+            },
+        })
+
+        app.use(router)
+        app.use(vuetify)
+        app.mount('#app')
+    })
+    .catch(err => {
+        console.error('index.vueの読み込みに失敗:', err);
+    });
